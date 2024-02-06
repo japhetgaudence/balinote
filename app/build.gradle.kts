@@ -59,8 +59,6 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.8.2")
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.palette:palette-ktx:1.0.0")
-
-    // Core Data
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
 
     val composeVersion = "2023.08.00"
@@ -70,6 +68,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material3:material3-window-size-class")
+    implementation("androidx.compose.material:material-icons-extended")
 
     val hiltVersion = "2.48"
     implementation("com.google.dagger:hilt-android:$hiltVersion")

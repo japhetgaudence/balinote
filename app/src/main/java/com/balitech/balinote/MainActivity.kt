@@ -4,25 +4,27 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.balitech.balinote.presentation.NavGraphs
+import com.balitech.balinote.presentation.appCurrentDestinationAsState
+import com.balitech.balinote.presentation.destinations.Destination
+import com.balitech.balinote.presentation.startAppDestination
+import com.balitech.balinote.ui.components.appbars.BottomNavigationBar
+import com.balitech.balinote.ui.navigation.BottomNavItem
 import com.balitech.balinote.ui.theme.BaliNoteTheme
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
+import com.ramcosta.composedestinations.spec.NavHostEngine
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,71 +32,54 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             BaliNoteTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    color = MaterialTheme.colorScheme.background,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = 20.dp)
-                            .statusBarsPadding(),
-                        verticalArrangement = Arrangement.spacedBy(20.dp)
-                    ) {
-                        AppButton(
-                            name = "Primary",
-                            background = MaterialTheme.colorScheme.primary,
-                            textColor = MaterialTheme.colorScheme.onPrimary
-                        )
-                        AppButton(
-                            name = "Secondary",
-                            background = MaterialTheme.colorScheme.secondary,
-                            textColor = MaterialTheme.colorScheme.onSecondary
-                        )
-                        AppButton(
-                            name = "Tertiary",
-                            background = MaterialTheme.colorScheme.tertiary,
-                            textColor = MaterialTheme.colorScheme.onTertiary
-                        )
-                        AppButton(
-                            name = "Error",
-                            background = MaterialTheme.colorScheme.error,
-                            textColor = MaterialTheme.colorScheme.onError
-                        )
-                    }
-                }
+                App()
             }
         }
     }
 }
 
+@OptIn(
+    ExperimentalMaterialNavigationApi::class,
+    ExperimentalAnimationApi::class,
+)
 @Composable
-fun AppButton(
-    name: String,
-    background: Color,
+fun App(
     modifier: Modifier = Modifier,
-    textColor: Color = Color.White
+    background: Color = MaterialTheme.colorScheme.background
 ) {
-    Box(
-        modifier = modifier
-            .height(100.dp)
-            .fillMaxWidth()
-            .background(background),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = name,
-            color = textColor,
-            style = MaterialTheme.typography.headlineSmall
-        )
-    }
-}
+    val navHostEngine: NavHostEngine = rememberAnimatedNavHostEngine()
+    val navController: NavHostController = navHostEngine.rememberNavController()
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    BaliNoteTheme {
-        AppButton(name = "Android", background = MaterialTheme.colorScheme.primary)
+    val currentDestination: Destination = navController.appCurrentDestinationAsState().value
+        ?: NavGraphs.root.startAppDestination
+
+
+    Scaffold(
+        modifier = modifier.fillMaxSize(),
+        containerColor = background,
+        bottomBar = {
+            BottomNavigationBar(
+                selectedItem = BottomNavItem.getItem(currentDestination.route),
+                onItemClick = { item: BottomNavItem ->
+                    if (item == BottomNavItem.Add) {
+                        // TODO: Implement add bottom sheet
+                        return@BottomNavigationBar
+                    } else {
+                        navController.navigate(item.route) {
+                            launchSingleTop = true
+                        }
+                    }
+                }
+            )
+        }
+    ) { contentPadding: PaddingValues ->
+        DestinationsNavHost(
+            navController = navController,
+            engine = navHostEngine,
+            navGraph = NavGraphs.root,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(contentPadding)
+        )
     }
 }
