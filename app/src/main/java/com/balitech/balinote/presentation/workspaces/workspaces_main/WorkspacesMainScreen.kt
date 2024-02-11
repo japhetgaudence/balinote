@@ -10,10 +10,9 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-const val WORKSPACES_MAIN_SCREEN_ROUTE = "workspaces/main"
 
 @RootNavGraph
-@Destination(route = WORKSPACES_MAIN_SCREEN_ROUTE)
+@Destination
 @Composable
 fun WorkspacesMainScreen(
     navigator: DestinationsNavigator

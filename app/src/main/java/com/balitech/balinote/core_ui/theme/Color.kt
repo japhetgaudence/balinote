@@ -1,4 +1,4 @@
-package com.balitech.balinote.ui.theme
+package com.balitech.balinote.core_ui.theme
 
 import androidx.compose.ui.graphics.Color
 
@@ -61,3 +61,20 @@ val inverseOnSurfaceDark = Color(0xFF312F36)
 val outlineDark = Color(0xFF938F99)
 val outlineVariantDark = Color(0xFF48454E)
 val scrimDark = Color(0xFF000000)
+
+
+// Extended Colors
+//val blueBackgroundLight = Color(0xFF)
+//val blueBackgroundDark = Color(0xFF)
+//
+//val greenBackgroundLight = Color(0xFF)
+//val greenBackgroundDark = Color(0xFF)
+//
+//val orangeBackgroundLight = Color(0xFF)
+//val orangeBackgroundDark = Color(0xFF)
+//
+//val pinkBackgroundLight = Color(0xFF)
+//val pinkBackgroundDark = Color(0xFF)
+//
+//val purpleBackgroundLight = Color(0xFF)
+//val purpleBackgroundDark = Color(0xFF)

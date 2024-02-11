@@ -1,4 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--  Backgrounds  -->
+    <color name="bg_dark">#141318</color>
+    <color name="bg_light">#FDF8FF</color>
+
+    <color name="purple_dark">#6146C6</color>
+    <color name="purple_light">#CBBEFF</color>
+
+    <color name="pink_dark">#91002c</color>
+    <color name="pink_light">#ffb2b8</color>
+
+    <color name="blue_dark">#0040a2</color>
+    <color name="blue_light">#b2c5ff</color>
+
+    <color name="green_dark">#006c46</color>
+    <color name="green_light">#8bf0ba</color>
+
+    <color name="cyan_dark">#006972</color>
+    <color name="cyan_light">#4ed8e7</color>
+
+    <color name="gold_dark">#895100</color>
+    <color name="gold_light">#F7BC70</color>
+
+    <color name="evergreen_dark">#506600</color>
+    <color name="evergreen_light">#c3f410</color>
+
+    <color name="yellow_dark">#6d5e00</color>
+    <color name="yellow_light">#ffe252</color>
+
+    <color name="grey_dark">#393f4d</color>
+    <color name="grey_light">#bec6dc</color>
+
+    <color name="silver_dark">#44464f</color>
+    <color name="silver_light">#e1e2ec</color>
+
+
+    <!--  Content  -->
+    <color name="white">#E6E1E9</color>
+    <color name="black">#1C1B20</color>
 
 </resources>

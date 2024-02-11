@@ -1,4 +1,4 @@
-package com.balitech.balinote.ui.components.appbars
+package com.balitech.balinote.core_ui.components.appbars
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.WindowInsets
@@ -14,15 +14,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
-import com.balitech.balinote.ui.navigation.BottomNavItem
+import com.balitech.balinote.core_ui.navigation.BottomNavItem
 
 
 @Composable
 fun BottomNavigationBar(
-    selectedItem: BottomNavItem,
+    selectedDestination: BottomNavItem,
     onItemClick: (BottomNavItem) -> Unit,
     modifier: Modifier = Modifier,
-    navItems: Set<BottomNavItem> = BottomNavItem.getItems(),
+    navItems: Set<BottomNavItem> = BottomNavItem.values(),
     windowInsets: WindowInsets = NavigationBarDefaults.windowInsets,
     tonalElevation: Dp = NavigationBarDefaults.Elevation,
     showLabels: Boolean = true
@@ -33,7 +33,7 @@ fun BottomNavigationBar(
         windowInsets = windowInsets
     ) {
         navItems.forEach { item: BottomNavItem ->
-            val selected = item == selectedItem
+            val selected = item == selectedDestination
 
             NavigationBarItem(
                 selected = selected,
@@ -59,7 +59,7 @@ private fun BottomNavIcon(
     Icon(
         modifier = modifier,
         contentDescription = stringResource(id = item.label),
-        imageVector = if (selected) item.selectedIcon else item.unselectedIcon
+        imageVector = if (selected) item.selectedIcon else item.unselectedIcon,
     )
 }
 
@@ -72,7 +72,7 @@ private fun BottomNavLabel(
 ) {
     Text(
         text = stringResource(id = label),
-        style = MaterialTheme.typography.labelMedium,
+        style = MaterialTheme.typography.labelSmall,
         fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium,
         modifier = modifier
     )

@@ -1,9 +1,31 @@
 <resources>
+    <!--  Labels  -->
     <string name="app_name">BaliNote</string>
+    <string name="label_search">Search</string>
+    <string name="label_note">Note</string>
+    <string name="label_task">Task</string>
+    <string name="label_project">Project</string>
+    <string name="label_workspace">Workspace</string>
 
-    <string name="label_tasks">Tasks</string>
-    <string name="label_notes">Notes</string>
-    <string name="label_add">Add</string>
-    <string name="label_workspaces">Workspaces</string>
-    <string name="label_library">Library</string>
+    <!--  Destinations  -->
+    <string name="destination_tasks">Tasks</string>
+    <string name="destination_notes">Notes</string>
+    <string name="destination_add">Add</string>
+    <string name="destination_projects">Projects</string>
+    <string name="destination_workspaces">Workspaces</string>
+    <string name="destination_library">Library</string>
+
+    <!-- Priorities -->
+    <string name="priority_urgent">Urgent</string>
+    <string name="priority_high">High</string>
+    <string name="priority_medium">Medium</string>
+    <string name="priority_low">Low</string>
+    <string name="priority_none">None</string>
+
+    <!-- Statuses -->
+    <string name="status_created">Created</string>
+    <string name="status_in_progress">In Progress</string>
+    <string name="status_paused">Paused</string>
+    <string name="status_completed">Completed</string>
+
 </resources>

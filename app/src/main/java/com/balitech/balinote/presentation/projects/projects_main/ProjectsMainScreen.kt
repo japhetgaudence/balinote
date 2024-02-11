@@ -1,4 +1,4 @@
-package com.balitech.balinote.presentation.tasks.tasks_main
+package com.balitech.balinote.presentation.projects.projects_main
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,19 +14,13 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @RootNavGraph
 @Destination
 @Composable
-fun TasksMainScreen(
+fun ProjectsMainScreen(
     navigator: DestinationsNavigator
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "Tasks Screen")
+        Text(text = "Projects Screen")
     }
 }
-
-
-
-
-
-
