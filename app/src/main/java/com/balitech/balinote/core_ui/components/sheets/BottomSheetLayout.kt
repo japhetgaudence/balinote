@@ -31,7 +31,7 @@ fun BottomSheetLayout(
     modifier: Modifier = Modifier,
     onDismiss: (() -> Unit)? = null,
     dismissIcon: ImageVector? = null,
-    shape: Shape = MaterialTheme.shapes.large,
+    shape: Shape = MaterialTheme.shapes.extraLarge,
     titleStyle: TextStyle = MaterialTheme.typography.headlineSmall,
     titleColor: Color = MaterialTheme.colorScheme.onSurface,
     content: @Composable() (ColumnScope.() -> Unit)
@@ -63,7 +63,5 @@ fun BottomSheetLayout(
         Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
 
         content(this)
-
-        Spacer(modifier = Modifier.height(MaterialTheme.spacing.extraSmall))
     }
 }

@@ -23,7 +23,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import com.balitech.balinote.core_ui.components.icons.TonalIcon
-import com.balitech.balinote.core_ui.navigation.CreateResourceItem
+import com.balitech.balinote.core_ui.navigation.MainMenuActionItem
 import com.balitech.balinote.core_ui.theme.dimensions.elevation
 import com.balitech.balinote.core_ui.theme.dimensions.spacing
 import com.ramcosta.composedestinations.spec.Direction
@@ -32,14 +32,14 @@ import com.ramcosta.composedestinations.spec.Direction
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateResourceBottomSheet(
+fun MainMenuBottomSheet(
     sheetState: SheetState,
     onDismissRequest: () -> Unit,
     onNavigate: (Direction) -> Unit,
 ) {
     BottomSheetLayout(
         sheetState = sheetState,
-        sheetTitle = "Create",
+        sheetTitle = "Menu",
         onDismissRequest = onDismissRequest,
     ) {
         LazyColumn(
@@ -48,8 +48,8 @@ fun CreateResourceBottomSheet(
             contentPadding = PaddingValues(vertical = MaterialTheme.spacing.large),
             modifier = Modifier.fillMaxWidth()
         ) {
-            items(items = CreateResourceItem.values()) { item ->
-                CreateResourceBottomSheetItem(
+            items(items = MainMenuActionItem.values()) { item ->
+                MainMenuBottomSheetItem(
                     item = item,
                     onClick = onNavigate
                 )
@@ -60,8 +60,8 @@ fun CreateResourceBottomSheet(
 
 
 @Composable
-private fun CreateResourceBottomSheetItem(
-    item: CreateResourceItem,
+private fun MainMenuBottomSheetItem(
+    item: MainMenuActionItem,
     onClick: (Direction) -> Unit,
     modifier: Modifier = Modifier,
     background: Color = MaterialTheme.colorScheme.background,

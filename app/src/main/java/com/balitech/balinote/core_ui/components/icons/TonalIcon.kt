@@ -1,6 +1,6 @@
 package com.balitech.balinote.core_ui.components.icons
 
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -21,9 +21,10 @@ fun TonalIcon(
     onClick: () -> Unit = {},
     description: String? = null,
     shape: Shape = CircleShape,
-    size: Dp = 20.dp,
+    size: Dp = 24.dp,
     background: Color = MaterialTheme.colorScheme.surface,
-    tonalElevation: Dp = MaterialTheme.elevation.small
+    tonalElevation: Dp = MaterialTheme.elevation.large,
+    contentPadding: Dp = MaterialTheme.elevation.large,
 ) {
     Surface(
         onClick = onClick,
@@ -35,7 +36,9 @@ fun TonalIcon(
         Icon(
             imageVector = icon,
             contentDescription = description,
-            modifier.size(size)
+            modifier = Modifier
+//                .size(size)
+                .padding(contentPadding)
         )
     }
 }

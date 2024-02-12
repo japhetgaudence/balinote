@@ -31,12 +31,16 @@ import androidx.navigation.NavHostController
 import com.balitech.balinote.core_ui.components.appbars.BottomNavigationBar
 import com.balitech.balinote.core_ui.components.appbars.TopNavigationBar
 import com.balitech.balinote.core_ui.components.sheets.CreateResourceBottomSheet
+import com.balitech.balinote.core_ui.components.sheets.MainMenuBottomSheet
 import com.balitech.balinote.core_ui.navigation.BottomNavItem
+import com.balitech.balinote.core_ui.navigation.TopNavBarAction
+import com.balitech.balinote.core_ui.navigation.navigateBottomNavBar
+import com.balitech.balinote.core_ui.navigation.navigateToRemindersScreen
+import com.balitech.balinote.core_ui.navigation.navigateToSearchScreen
 import com.balitech.balinote.core_ui.theme.BaliNoteTheme
 import com.balitech.balinote.presentation.NavGraphs
 import com.balitech.balinote.presentation.appCurrentDestinationAsState
 import com.balitech.balinote.presentation.destinations.Destination
-import com.balitech.balinote.presentation.startAppDestination
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
@@ -75,7 +79,6 @@ fun App(
     coroutineScope: CoroutineScope,
     modifier: Modifier = Modifier,
     background: Color = MaterialTheme.colorScheme.background,
-    startDestination: Destination = NavGraphs.root.startAppDestination
 ) {
     val currentDestination: Destination? = navController.appCurrentDestinationAsState().value
     val selectedDestination = BottomNavItem.getSelectedItem(currentDestination?.route)
@@ -84,8 +87,11 @@ fun App(
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(state = topAppBarState)
 
-    val sheetState = rememberModalBottomSheetState()
-    var showBottomSheet by rememberSaveable { mutableStateOf(false) }
+    val createResourceSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    var showCreateResourceBottomSheet by rememberSaveable { mutableStateOf(false) }
+
+    val mainMenuSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    var showMainMenuBottomSheet by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -95,8 +101,22 @@ fun App(
                 exit = slideOutVertically { offsetY -> -(offsetY) }
             ) {
                 TopNavigationBar(
+                    title = stringResource(id = selectedDestination.label),
                     scrollBehavior = scrollBehavior,
-                    title = stringResource(id = selectedDestination.label)
+                    onActionClick = { action: TopNavBarAction ->
+                        when(action) {
+                            TopNavBarAction.NavigateToRemindersScreen -> {
+                                navController.navigateToRemindersScreen()
+                            }
+                            TopNavBarAction.NavigateToSearchScreen -> {
+                                navController.navigateToSearchScreen()
+                            }
+                            TopNavBarAction.ToggleContextMenu -> {
+                                showMainMenuBottomSheet = true
+                            }
+                            TopNavBarAction.ToggleLayout -> Unit
+                        }
+                    },
                 )
             }
         },
@@ -110,12 +130,9 @@ fun App(
                     selectedDestination = selectedDestination,
                     onItemClick = { item: BottomNavItem ->
                         if (item == BottomNavItem.Add) {
-                            showBottomSheet = true
+                            showCreateResourceBottomSheet = true
                         } else {
-                            navController.navigate(item.destination!!) {
-                                launchSingleTop = true
-                                popUpTo(startDestination.route)
-                            }
+                            navController.navigateBottomNavBar(item.destination!!)
                         }
                     }
                 )
@@ -135,15 +152,34 @@ fun App(
                 .padding(contentPadding)
         )
 
-        if (showBottomSheet) {
+        if (showCreateResourceBottomSheet) {
             CreateResourceBottomSheet(
-                sheetState = sheetState,
-                onDismissRequest = { showBottomSheet = false },
+                sheetState = createResourceSheetState,
+                onDismissRequest = { showCreateResourceBottomSheet = false },
                 onNavigate = { direction: Direction ->
                     coroutineScope
-                        .launch { sheetState.hide() }
+                        .launch { createResourceSheetState.hide() }
                         .invokeOnCompletion {
-                            if (!sheetState.isVisible) showBottomSheet = false
+                            if (!createResourceSheetState.isVisible)
+                                showCreateResourceBottomSheet = false
+
+                            navController.navigate(direction)
+                        }
+                }
+            )
+        }
+
+        if (showMainMenuBottomSheet) {
+            MainMenuBottomSheet(
+                sheetState = mainMenuSheetState,
+                onDismissRequest = { showMainMenuBottomSheet = false },
+                onNavigate = { direction: Direction ->
+                    coroutineScope
+                        .launch { mainMenuSheetState.hide() }
+                        .invokeOnCompletion {
+                            if (!mainMenuSheetState.isVisible)
+                                showMainMenuBottomSheet = false
+
                             navController.navigate(direction)
                         }
                 }
@@ -151,3 +187,12 @@ fun App(
         }
     }
 }
+
+
+/*
+* Context Menu Options:
+*    - Sort
+*    - Tags
+*    - Archive
+*    - Settings
+* */

@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.MaterialTheme
@@ -54,8 +54,7 @@ fun NotesMainScreen(
 fun TestContent(
     state: LazyStaggeredGridState,
 ) {
-    val backgrounds = BackgroundColor.getAll()
-    val items = backgrounds.plus(backgrounds).plus(backgrounds)
+    val items = BackgroundColor.getAll()
 
     LazyVerticalStaggeredGrid(
         state = state,
@@ -65,7 +64,7 @@ fun TestContent(
         verticalItemSpacing = 12.dp,
         contentPadding = PaddingValues(12.dp)
     ) {
-        itemsIndexed(items = items, key = { index, _ -> index }) { _, item ->
+        items(items = items, key = { item -> item.id }) { item ->
             Container(background = item)
         }
     }

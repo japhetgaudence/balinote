@@ -16,7 +16,7 @@ fun ActionIcon(
     icon: ImageVector,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    size: Dp = 20.dp,
+    size: Dp = 24.dp,
     description: String? = null,
     enabled: Boolean = true
 ) {
