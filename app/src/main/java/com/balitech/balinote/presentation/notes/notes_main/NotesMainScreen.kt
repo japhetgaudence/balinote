@@ -1,100 +1,149 @@
 package com.balitech.balinote.presentation.notes.notes_main
 
-import android.annotation.SuppressLint
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.items
-import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
-import androidx.compose.material3.DividerDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
-import com.balitech.balinote.domain.models.common.BackgroundColor
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.balitech.balinote.R
+import com.balitech.balinote.core_ui.components.layouts.TopDestinationScaffold
+import com.balitech.balinote.core_ui.extensions.navigateSingleTop
+import com.balitech.balinote.core_ui.extensions.navigateToRemindersScreen
+import com.balitech.balinote.core_ui.extensions.navigateToSearchScreen
+import com.balitech.balinote.domain.models.note.Note
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @RootNavGraph(start = true)
 @Destination
 @Composable
 fun NotesMainScreen(
     navigator: DestinationsNavigator
 ) {
-    val listState = rememberLazyStaggeredGridState()
+    val viewModel: NotesViewModel = hiltViewModel()
+    val uiState: NotesScreenState = viewModel.uiState.collectAsStateWithLifecycle().value
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        TestContent(state = listState)
+    NotesMainScreenContent(
+        uiState = uiState,
+        onStateEvent = viewModel::onStateEvent,
+        onNavigationEvent = { event: NotesScreenEvent.NavigationEvent ->
+            when (event) {
+                is NotesScreenEvent.NavigationEvent.OnNavigateToNoteDetailsScreen -> {
+                    navigator.navigateSingleTop(event.direction)
+                }
 
-    }
-}
+                is NotesScreenEvent.NavigationEvent.OnNavigateToRemindersScreen -> {
+                    navigator.navigateToRemindersScreen()
+                }
 
-
-@Composable
-fun TestContent(
-    state: LazyStaggeredGridState,
-) {
-    val items = BackgroundColor.getAll()
-
-    LazyVerticalStaggeredGrid(
-        state = state,
-        modifier = Modifier.fillMaxSize(),
-        columns = StaggeredGridCells.Fixed(2),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalItemSpacing = 12.dp,
-        contentPadding = PaddingValues(12.dp)
-    ) {
-        items(items = items, key = { item -> item.id }) { item ->
-            Container(background = item)
+                is NotesScreenEvent.NavigationEvent.OnNavigateToSearchScreen -> {
+                    navigator.navigateToSearchScreen()
+                }
+            }
         }
-    }
+    )
 }
 
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun Container(
-    background: BackgroundColor,
-    modifier: Modifier = Modifier,
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    shape: Shape = MaterialTheme.shapes.medium,
-    textColor: Color = MaterialTheme.colorScheme.onBackground,
-    borderWidth: Dp = if (BackgroundColor.isNone(background)) 1.dp else Dp.Unspecified,
-    borderColor: Color = if (BackgroundColor.isNone(background)) DividerDefaults.color else Color.Unspecified
+fun NotesMainScreenContent(
+    uiState: NotesScreenState,
+    onStateEvent: (event: NotesScreenEvent.StateEvent) -> Unit,
+    onNavigationEvent: (event: NotesScreenEvent.NavigationEvent) -> Unit,
 ) {
-    val text = "Build a custom color scheme to map dynamic color, use as fallback colors, or implement a branded theme. The color system automatically handles critical adjustments that provide accessible color contrast."
+    val coroutineScope: CoroutineScope = rememberCoroutineScope()
+    val scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
+    val pagerState =
+        rememberPagerState(initialPage = NotesTab.firstTabIndex(), pageCount = { NotesTab.count })
+    val selectedTabIndex by rememberSaveable(pagerState.currentPage) { mutableIntStateOf(pagerState.currentPage) }
 
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(shape)
-            .border(width = borderWidth, color = borderColor, shape = shape)
-            .background(if (darkTheme) background.darkThemeValue else background.lightThemeValue)
-            .padding(12.dp)
+    TopDestinationScaffold(
+        title = R.string.label_notes,
+        viewMode = uiState.viewMode,
+        scrollBehavior = scrollBehavior,
+        onToggleViewClick = {
+            onStateEvent(NotesScreenEvent.StateEvent.OnToggleNotesView)
+        },
+        onSearchIconClick = {
+            onNavigationEvent(NotesScreenEvent.NavigationEvent.OnNavigateToSearchScreen)
+        },
+        onNotificationIconClick = {
+            onNavigationEvent(NotesScreenEvent.NavigationEvent.OnNavigateToRemindersScreen)
+        },
+        tabsContent = {
+            NotesTabRow(
+                selectedTabIndex = selectedTabIndex,
+                onTabClick = { index: Int ->
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(index)
+                    }
+                },
+            )
+        }
     ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.bodyMedium,
-            color = textColor
+        if (uiState.isLoading) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = "Loading...")
+            }
+        }
+
+        NotesViewPager(
+            state = pagerState,
+            scrollConnection = scrollBehavior.nestedScrollConnection,
+            allNotesPage = {
+                NotesVerticalStaggeredGrid(
+                    notes = uiState.notes,
+                    columnsCount = uiState.viewMode.columnsCount,
+                    onItemClick = { note: Note ->
+                        val event = NotesScreenEvent.NavigationEvent
+                            .OnNavigateToNoteDetailsScreen(note.id)
+                        onNavigationEvent(event)
+                    }
+                )
+            },
+            favoriteNotesPage = {
+                NotesVerticalStaggeredGrid(
+                    notes = uiState.favoriteNotes,
+                    columnsCount = uiState.viewMode.columnsCount,
+                    onItemClick = { note: Note ->
+                        val event = NotesScreenEvent.NavigationEvent
+                            .OnNavigateToNoteDetailsScreen(note.id)
+                        onNavigationEvent(event)
+                    }
+                )
+            },
+            archivedNotesPage = {
+                NotesVerticalStaggeredGrid(
+                    notes = uiState.archivedNotes,
+                    columnsCount = uiState.viewMode.columnsCount,
+                    onItemClick = { note: Note ->
+                        val event = NotesScreenEvent.NavigationEvent
+                            .OnNavigateToNoteDetailsScreen(note.id)
+                        onNavigationEvent(event)
+                    }
+                )
+            },
+            foldersPage = {}
         )
     }
 }

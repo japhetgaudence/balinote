@@ -1,4 +1,4 @@
-package com.balitech.balinote.core_ui.navigation
+package com.balitech.balinote.core_ui.types
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
@@ -20,7 +20,7 @@ sealed class CreateResourceItem(
     val icon: ImageVector
 ) {
     data object Note: CreateResourceItem(
-        direction = NoteDetailsScreenDestination,
+        direction = NoteDetailsScreenDestination(noteId = null),
         label = R.string.label_note,
         icon = Icons.Outlined.NoteAlt
     )

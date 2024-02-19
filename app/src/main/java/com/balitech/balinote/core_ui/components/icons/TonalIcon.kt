@@ -11,7 +11,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.balitech.balinote.core_ui.theme.dimensions.elevation
 
 @Composable
@@ -21,7 +20,6 @@ fun TonalIcon(
     onClick: () -> Unit = {},
     description: String? = null,
     shape: Shape = CircleShape,
-    size: Dp = 24.dp,
     background: Color = MaterialTheme.colorScheme.surface,
     tonalElevation: Dp = MaterialTheme.elevation.large,
     contentPadding: Dp = MaterialTheme.elevation.large,
@@ -36,9 +34,7 @@ fun TonalIcon(
         Icon(
             imageVector = icon,
             contentDescription = description,
-            modifier = Modifier
-//                .size(size)
-                .padding(contentPadding)
+            modifier = Modifier.padding(contentPadding)
         )
     }
 }

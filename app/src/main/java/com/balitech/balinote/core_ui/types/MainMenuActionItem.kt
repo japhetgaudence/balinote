@@ -1,4 +1,4 @@
-package com.balitech.balinote.core_ui.navigation
+package com.balitech.balinote.core_ui.types
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
@@ -48,7 +48,7 @@ sealed class MainMenuActionItem(
         fun values(): List<MainMenuActionItem> = listOf(
             NavigateToTagsScreen,
             NavigateToArchiveScreen,
-            NavigateToRemindersScreen,
+//            NavigateToRemindersScreen,
             NavigateToSettingsScreen
         )
     }

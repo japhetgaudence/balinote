@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
-import com.balitech.balinote.core_ui.navigation.BottomNavItem
+import com.balitech.balinote.core_ui.types.BottomNavItem
 
 
 @Composable

@@ -1,4 +1,4 @@
-package com.balitech.balinote.presentation.workspaces.workspace_details
+package com.balitech.balinote.presentation.account.workspaces.workspace_details
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

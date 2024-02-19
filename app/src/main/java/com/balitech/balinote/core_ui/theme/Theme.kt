@@ -18,7 +18,9 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import com.balitech.balinote.core_ui.theme.dimensions.Elevation
 import com.balitech.balinote.core_ui.theme.dimensions.LocalElevation
+import com.balitech.balinote.core_ui.theme.dimensions.LocalSizing
 import com.balitech.balinote.core_ui.theme.dimensions.LocalSpacing
+import com.balitech.balinote.core_ui.theme.dimensions.Sizing
 import com.balitech.balinote.core_ui.theme.dimensions.Spacing
 
 private val DarkColorScheme = darkColorScheme(
@@ -109,6 +111,7 @@ fun BaliNoteTheme(
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = Color.Transparent.toArgb()
+            window.navigationBarColor = Color.Transparent.toArgb()
 
             WindowCompat
                 .getInsetsController(window, view)
@@ -118,7 +121,8 @@ fun BaliNoteTheme(
 
     CompositionLocalProvider(
         LocalSpacing provides Spacing(),
-        LocalElevation provides Elevation()
+        LocalElevation provides Elevation(),
+        LocalSizing provides Sizing()
     ) {
         MaterialTheme(
             colorScheme = colorScheme,

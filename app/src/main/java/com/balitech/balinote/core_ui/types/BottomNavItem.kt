@@ -1,22 +1,22 @@
-package com.balitech.balinote.core_ui.navigation
+package com.balitech.balinote.core_ui.types
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.NoteAlt
 import androidx.compose.material.icons.filled.TaskAlt
 import androidx.compose.material.icons.filled.Work
-import androidx.compose.material.icons.outlined.Folder
+import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.NoteAlt
 import androidx.compose.material.icons.outlined.TaskAlt
 import androidx.compose.material.icons.outlined.WorkOutline
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.balitech.balinote.R
+import com.balitech.balinote.presentation.destinations.AccountMainScreenDestination
 import com.balitech.balinote.presentation.destinations.NotesMainScreenDestination
 import com.balitech.balinote.presentation.destinations.ProjectsMainScreenDestination
 import com.balitech.balinote.presentation.destinations.TasksMainScreenDestination
-import com.balitech.balinote.presentation.destinations.WorkspacesMainScreenDestination
 import com.ramcosta.composedestinations.spec.Direction
 
 sealed class BottomNavItem(
@@ -28,37 +28,37 @@ sealed class BottomNavItem(
 
     data object Notes: BottomNavItem(
         destination = NotesMainScreenDestination,
-        label = R.string.destination_notes,
+        label = R.string.label_notes,
         selectedIcon = Icons.Filled.NoteAlt,
         unselectedIcon = Icons.Outlined.NoteAlt
     )
 
     data object Tasks: BottomNavItem(
         destination = TasksMainScreenDestination,
-        label = R.string.destination_tasks,
+        label = R.string.label_tasks,
         selectedIcon = Icons.Filled.TaskAlt,
         unselectedIcon = Icons.Outlined.TaskAlt
     )
 
-    data object Add: BottomNavItem(
+    data object Create: BottomNavItem(
         destination = null,
-        label = R.string.destination_add,
+        label = R.string.label_create,
         selectedIcon = Icons.Filled.AddCircle,
         unselectedIcon = Icons.Filled.AddCircle
     )
 
     data object Projects: BottomNavItem(
         destination = ProjectsMainScreenDestination,
-        label = R.string.destination_projects,
+        label = R.string.label_projects,
         selectedIcon = Icons.Filled.Work,
         unselectedIcon = Icons.Outlined.WorkOutline
     )
 
-    data object Workspaces: BottomNavItem(
-        destination = WorkspacesMainScreenDestination,
-        label = R.string.destination_workspaces,
-        selectedIcon = Icons.Filled.Folder,
-        unselectedIcon = Icons.Outlined.Folder
+    data object Account: BottomNavItem(
+        destination = AccountMainScreenDestination,
+        label = R.string.label_account,
+        selectedIcon = Icons.Filled.AccountCircle,
+        unselectedIcon = Icons.Outlined.AccountCircle
     )
 
 
@@ -66,9 +66,9 @@ sealed class BottomNavItem(
         fun values(): Set<BottomNavItem> = setOf(
             Notes,
             Tasks,
-            Add,
+            Create,
             Projects,
-            Workspaces
+            Account
         )
 
         fun getSelectedItem(currentRoute: String?): BottomNavItem {
@@ -76,18 +76,8 @@ sealed class BottomNavItem(
                 Notes.destination!!.route -> Notes
                 Tasks.destination!!.route -> Tasks
                 Projects.destination!!.route -> Projects
-                Workspaces.destination!!.route -> Workspaces
+                Account.destination!!.route -> Account
                 else -> Notes
-            }
-        }
-
-        fun showBottomNavBar(currentRoute: String?): Boolean {
-            return when(currentRoute) {
-                Notes.destination!!.route,
-                Tasks.destination!!.route,
-                Projects.destination!!.route,
-                Workspaces.destination!!.route -> true
-                else -> false
             }
         }
     }

@@ -23,7 +23,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import com.balitech.balinote.core_ui.components.icons.TonalIcon
-import com.balitech.balinote.core_ui.navigation.CreateResourceItem
+import com.balitech.balinote.core_ui.types.CreateResourceItem
 import com.balitech.balinote.core_ui.theme.dimensions.elevation
 import com.balitech.balinote.core_ui.theme.dimensions.spacing
 import com.ramcosta.composedestinations.spec.Direction
@@ -70,7 +70,7 @@ private fun CreateResourceBottomSheetItem(
     textStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     textColor: Color = MaterialTheme.colorScheme.onSurface,
     itemsSpacing: Dp = MaterialTheme.spacing.large,
-    contentPadding: Dp = MaterialTheme.spacing.large
+    contentPadding: Dp = MaterialTheme.spacing.medium
 ) {
     Surface(
         onClick = { onClick(item.direction) },

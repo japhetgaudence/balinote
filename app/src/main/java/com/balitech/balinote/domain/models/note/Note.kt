@@ -6,6 +6,14 @@ import com.balitech.balinote.domain.models.project.Project
 import com.balitech.balinote.domain.models.workspace.Workspace
 import java.time.LocalDateTime
 
+
+
+/*
+* NOTES USECASES:-
+* Search notes
+* Sort by       : Date created & Date modified (asc-desc), color,
+* Change layout : SingleColumn, GridLayout, StaggeredGridLayout
+* */
 data class Note(
     val id: String = "",
     val title: String = "",
@@ -21,9 +29,3 @@ data class Note(
     val createdAt: LocalDateTime = LocalDateTime.now()
 )
 
-/*
-* NOTES USECASES:-
-* Search notes
-* Sort by       : Date created & Date modified (asc-desc), color,
-* Change layout : SingleColumn, GridLayout, StaggeredGridLayout
-* */

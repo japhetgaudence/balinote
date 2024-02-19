@@ -6,7 +6,7 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("io.realm.kotlin")
     id("kotlin-parcelize")
-    kotlin("plugin.serialization") version "1.9.10"
+    kotlin("plugin.serialization") version "1.9.22"
 }
 
 android {
@@ -38,10 +38,11 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "19"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.8"
@@ -61,7 +62,7 @@ dependencies {
     implementation("androidx.palette:palette-ktx:1.0.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
 
-    val composeVersion = "2023.08.00"
+    val composeVersion = "2024.01.00"
     implementation(platform("androidx.compose:compose-bom:$composeVersion"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
@@ -79,12 +80,13 @@ dependencies {
     implementation("androidx.hilt:hilt-work:$hiltJetpackLibrariesVersion")
     ksp("androidx.hilt:hilt-compiler:$hiltJetpackLibrariesVersion")
 
-    val navigationVersion = "2.7.6"
+    val navigationVersion = "2.7.7"
     implementation("androidx.navigation:navigation-compose:$navigationVersion")
 
     val lifeCycleVersion = "2.7.0"
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifeCycleVersion")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifeCycleVersion")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifeCycleVersion")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifeCycleVersion")
     implementation("androidx.lifecycle:lifecycle-service:$lifeCycleVersion")
 
     val coroutinesVersion = "1.7.3"
@@ -100,7 +102,7 @@ dependencies {
 
     val pagingVersion = "3.2.1"
     implementation("androidx.paging:paging-runtime-ktx:$pagingVersion")
-    implementation("androidx.paging:paging-compose:3.3.0-alpha02")
+    implementation("androidx.paging:paging-compose:3.3.0-alpha03")
 
     val workManagerVersion = "2.9.0"
     implementation("androidx.work:work-runtime-ktx:$workManagerVersion")
